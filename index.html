@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>미생</title>
+  <link rel="stylesheet" href="normalize.css">
+  <link rel="stylesheet" href="style.css?v=1.0.0">
+</head>
+<body class="folded">
+
+  <aside>
+    <div class="list">
+      <ul id="videoList"></ul>
+    </div>
+  </aside>
+
+  <div class="main">
+    <div id="wrapVideoTitle">
+      <div id="refresh" onclick="location.reload();" class="noselect">❤️</div>
+      <span id="videoTitle" onclick="body.classList.toggle('folded');"></span>
+    </div>
+    <!-- You can use styles and CSS on this iframe element where the video player will appear -->
+    <iframe
+      id="videoIframe"
+      src=""
+      allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
+      allowfullscreen="true"
+      id="stream-player"
+      ></iframe>
+
+      <div id="wrapPrevNext">
+        <div id="wrapPrev">
+          <img src="https://customer-0ff4j7lwuiroki4n.cloudflarestream.com/765a0286922574b4c89f51fda23628a2/thumbnails/thumbnail.jpg?time=1s&height=270" alt="">
+          <div class="wrap-video-name" id="wrapPrevFileName">이전화: <span id="prevFileName">미생 0화</span></div>
+        </div>
+        <div id="wrapNext">
+          <img src="https://customer-0ff4j7lwuiroki4n.cloudflarestream.com/765a0286922574b4c89f51fda23628a2/thumbnails/thumbnail.jpg?time=1s&height=270" alt="">
+          <div class="wrap-video-name" id="wrapNextFileName">다음화: <span id="nextFileName">미생 0화</span></div>
+        </div>
+      </div>
+  </div>
+  
+  <script src="https://embed.cloudflarestream.com/embed/sdk.latest.js"></script>
+  <script>
+    var videoListArr = [
+      {
+        id:"765a0286922574b4c89f51fda23628a2",
+        title:"미생 1화",
+        thumb: 30,
+      },{
+        id:"855a5094fb81fd26bdf810d8e20c038e",
+        title:"미생 2화",
+        thumb: 3,
+      },{
+        id:"2091606f386a71ace7b05461277a22d1",
+        title:"미생 3화",
+        thumb: 3,
+      },{
+        id:"a01f68e9109b86ee0667aa79158745ce",
+        title:"미생 4화",
+        thumb: 3,
+      },{
+        id:"0bfdb9e3962b5c48a8f5bdbd8856c9ba",
+        title:"미생 5화",
+        thumb: 3,
+      },{
+        id:"c14a6d059558e1e8014b8311f68e3e1f",
+        title:"미생 6화",
+        thumb: 3,
+      },{
+        id:"fa9e8da3a305e9946e1f5c2d124f88e4",
+        title:"미생 7화",
+        thumb: 3,
+      },{
+        id:"a4cc531cbe3c39f82e1273c8829b2a2c",
+        title:"미생 8화",
+        thumb: 3,
+      },{
+        id:"478ce8d3f767f91800cdd8797de11c92",
+        title:"미생 9화",
+        thumb: 3,
+      },{
+        id:"2f77962081fbade4dd6c3a9e29791c1d",
+        title:"미생 10화",
+        thumb: 3,
+      },{
+        id:"e71721bc8ae686664917e152685c9231",
+        title:"미생 11화",
+        thumb: 3,
+      },{
+        id:"0f0f5f049f673bee5304b3c8125b4421",
+        title:"미생 12화",
+        thumb: 3,
+      },{
+        id:"29fc237cf9e24796a13f2b1174969bad",
+        title:"미생 13화",
+        thumb: 3,
+      },{
+        id:"8b4a72c101e6c82543df493d142ee14a",
+        title:"미생 14화",
+        thumb: 3,
+      },{
+        id:"0fc6fa19d4738c604667910a186118c8",
+        title:"미생 15화",
+        thumb: 3,
+      },{
+        id:"317768a43a27aba70e7d95e7d0d8a983",
+        title:"미생 16화",
+        thumb: 3,
+      },{
+        id:"4c2c4708459f1cf6708718e0ed4c2c38",
+        title:"미생 17화",
+        thumb: 3,
+      },{
+        id:"158258d73690346669da7c0c47293dd0",
+        title:"미생 18화",
+        thumb: 3,
+      },{
+        id:"ea856d562a9fd245d03a68eb2c10a33b",
+        title:"미생 19화",
+        thumb: 3,
+      },{
+        id:"f9cef018d1230327fab18367e6d549da",
+        title:"미생 20화",
+        thumb: 3,
+      }
+    ];
+
+    var customerID = "0ff4j7lwuiroki4n";
+    window.onload = function(){
+      videoList.innerHTML = '';
+      videoListArr.forEach((element, i) => {
+        var li = document.createElement("li");
+        li.setAttribute("id", "element4"); // added line
+        li.setAttribute("onclick", "getVideo("+i+");");
+
+        var thumb = document.createElement("img");
+        thumb.setAttribute("src", `https://customer-${customerID}.cloudflarestream.com/${element['id']}/thumbnails/thumbnail.jpg?time=${element['thumb']}s&height=270`);
+        li.appendChild(thumb);
+
+        var title = document.createElement("span");
+        title.innerHTML = element['title'];
+        li.appendChild(title);
+
+        videoList.appendChild(li);
+      });
+
+      getVideo(0);
+    }
+
+    function getVideo(idx) {
+      videoIframe.src = `https://customer-${customerID}.cloudflarestream.com/${videoListArr[idx].id}/iframe`;
+      videoTitle.innerHTML = videoListArr[idx].title;
+
+      wrapPrev.style.display = "none";
+      wrapNext.style.display = "none";
+
+      if(idx > 0) {
+        var prevVideo = videoListArr[parseInt(idx)-1];
+        wrapPrev.style.display = "block";
+        
+        wrapPrev.setAttribute("onclick", "getVideo("+(parseInt(idx)-1)+");");
+        wrapPrev.getElementsByTagName('img')[0].src = `https://customer-${customerID}.cloudflarestream.com/${prevVideo.id}/thumbnails/thumbnail.jpg?time=${prevVideo.thumb}s&height=270`;
+        prevFileName.innerHTML = videoListArr[idx-1].title;
+      }
+
+      if(idx < videoListArr.length) {
+        var nextVideo = videoListArr[parseInt(idx)+1];
+
+        wrapNext.style.display = "block";
+        wrapNext.setAttribute("onclick", "getVideo("+(parseInt(idx)+1)+");");
+        wrapNext.getElementsByTagName('img')[0].src = `https://customer-${customerID}.cloudflarestream.com/${nextVideo.id}/thumbnails/thumbnail.jpg?time=${nextVideo.thumb}s&height=270`;
+        nextFileName.innerHTML = nextVideo.title;
+      }
+
+      document.getElementsByTagName('body')[0].classList.add('folded');
+    }
+  </script>
+</body>
+</html>
